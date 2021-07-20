@@ -1,34 +1,34 @@
 const path = require('path')
 const fs = require('fs')
 
-const getCacheDirs = (constants, inputs) => {
-  const getCacheDirs__ = (constants, input) => {
-    let cacheDirs = []
+const getCacheDirs__ = (base, input) => {
+  let cacheDirs = []
 
-    if (typeof input === 'string') {
-      cacheDirs.push(path.normalize(constants.PUBLISH_DIR + '/' + input))
-    } else if (Array.isArray(input)) {
-      input.map((x) => {
-        cacheDirs.push(path.normalize(constants.PUBLISH_DIR + '/' + x))
-      })
-    } else {
-      console.log(`Warning: Unsupported value in inputs. Ignoring ${input}`)
-    }
-
-    return cacheDirs
+  if (typeof input === 'string') {
+    cacheDirs.push(path.normalize(base + '/' + input))
+  } else if (Array.isArray(input)) {
+    input.map((x) => {
+      cacheDirs.push(path.normalize(base + '/' + x))
+    })
+  } else {
+    console.log(`Warning: Unsupported value in inputs. Ignoring ${input}`)
   }
 
+  return cacheDirs
+}
+
+const getCacheDirs = (base, inputs) => {
   return [
-    ...getCacheDirs__(constants, inputs.img_cache_local_dir),
-    ...getCacheDirs__(constants, inputs.img_cache_remote_dir),
-    ...getCacheDirs__(constants, inputs.other_cache_dir),
+    ...getCacheDirs__(base, inputs.img_cache_local_dir),
+    ...getCacheDirs__(base, inputs.img_cache_remote_dir),
+    ...getCacheDirs__(base, inputs.other_cache_dir),
   ]
 }
 
 const getHttpHeaders = (inputs) => {
   let httpHeader = ''
 
-  inputs.img_cache_local_dir.map((x) => {
+  getCacheDirs__('.', inputs.img_cache_local_dir).map((x) => {
     httpHeader += `
 ${x}/*
 cache-control: public
@@ -49,11 +49,11 @@ module.exports = {
       )
     }
 
-    const cacheDirs = getCacheDirs(constants, inputs)
+    const cacheDirs = getCacheDirs(constants.PUBLISH_DIR, inputs)
     cacheDirs.map((x) => {
       if (fs.existsSync(x)) {
         console.log(
-          `Warning: directory ${x} already exists before restoring caches. It will be replaced.`,
+          `Warning: directory ${x} already exists before restoring caches. It will be replaced if it exists in the cache.`,
         )
       }
     })
@@ -69,27 +69,27 @@ module.exports = {
   },
 
   async onPostBuild({ constants, inputs, utils }) {
-    if (inputs.img_cache_httpHeader) {
-      fs.appendFile(
-        `${constants.PUBLISH_DIR}/_headers`,
-        getHttpHeaders(inputs),
-        (err) => {
-          if (err) throw err
-          console.log('Saved http header')
-        },
-      )
-    }
-
-    const cacheDirs = getCacheDirs(constants, inputs)
+    const cacheDirs = getCacheDirs(constants.PUBLISH_DIR, inputs)
 
     if (await utils.cache.save(cacheDirs)) {
       console.log('Saving 11ty directories to cache:')
       cacheDirs.map((x) => {
         console.log('- ' + x)
       })
+
+      if (inputs.img_cache_httpHeader) {
+        fs.appendFile(
+          `${constants.PUBLISH_DIR}/_headers`,
+          getHttpHeaders(inputs),
+          (err) => {
+            if (err) throw err
+            console.log('Saved http header')
+          },
+        )
+      }
     } else {
       console.log(
-        `Warning: 11ty build not found. Is you publish directory set correctly? “${constants.PUBLISH_DIR}”`,
+        `Warning: Unable to save 11ty cache. Build not found or is empty. Is you publish directory set correctly? “${constants.PUBLISH_DIR}”`,
       )
     }
   },

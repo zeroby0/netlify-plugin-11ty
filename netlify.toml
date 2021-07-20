@@ -7,7 +7,7 @@
 package = "."
   [plugins.inputs]
     img_cache_local = true
-    img_cache_local_dir = ['/img']
+    img_cache_local_dir = '/img'
 
     img_cache_remote = true
     img_cache_remote_dir = '../.cache'
