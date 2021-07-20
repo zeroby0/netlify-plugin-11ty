@@ -2,6 +2,9 @@
   "name": "netlify-plugin-11ty",
   "version": "0.0.1",
   "description": "Netlify Build plugin - A build plugin to integrate Eleventy seamlessly with Netlify",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "src/index.js",
   "files": [
     "src/**/*.js",
@@ -15,9 +18,17 @@
     "netlify-plugin",
     "netlify"
   ],
-  "author": "Aravind Reddy Voggu <aravind.reddy@iiitb.org>",
+  "author": {
+    "name": "Aravind Reddy Voggu",
+    "email": "aravind.reddy@iiitb.org",
+    "url": "https://www.avoggu.com"
+  },
   "license": "MIT",
-  "repository": "//github.com/zeroby0/netlify-plugin-11ty",
+  "repository": "https://github.com/zeroby0/netlify-plugin-11ty",
+  "bugs": {
+    "url": "https://github.com/zeroby0/netlify-plugin-11ty/issues"
+  },
+  "homepage": "https://github.com/zeroby0/netlify-plugin-11ty#readme",
   "directories": {
     "lib": "src",
     "test": "test"

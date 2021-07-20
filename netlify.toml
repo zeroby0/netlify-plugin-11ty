@@ -6,15 +6,11 @@
 [[plugins]]
 package = "."
   [plugins.inputs]
-    img_cache_local = true
-    img_cache_local_dir = '/img'
+  cache_img = false
+  cache_img_httpHeader = true
 
-    img_cache_remote = true
-    img_cache_remote_dir = '../.cache'
-
-    img_cache_httpHeader = true
-
-    other_cache_dir = []
+  cache_assets = '../.cache'
+  cache_other = []
 
 [build]
     base = "./"

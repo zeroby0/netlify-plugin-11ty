@@ -4,6 +4,8 @@ const fs = require('fs')
 const getCacheDirs__ = (base, input) => {
   let cacheDirs = []
 
+  if (!input) return []
+
   if (typeof input === 'string') {
     cacheDirs.push(path.normalize(base + '/' + input))
   } else if (Array.isArray(input)) {
@@ -19,21 +21,21 @@ const getCacheDirs__ = (base, input) => {
 
 const getCacheDirs = (base, inputs) => {
   return [
-    ...getCacheDirs__(base, inputs.img_cache_local_dir),
-    ...getCacheDirs__(base, inputs.img_cache_remote_dir),
-    ...getCacheDirs__(base, inputs.other_cache_dir),
+    ...getCacheDirs__(base, inputs.cache_img),
+    ...getCacheDirs__(base, inputs.cache_assets),
+    ...getCacheDirs__(base, inputs.cache_other),
   ]
 }
 
 const getHttpHeaders = (inputs) => {
   let httpHeader = ''
 
-  getCacheDirs__('.', inputs.img_cache_local_dir).map((x) => {
+  getCacheDirs__('.', inputs.cache_img).map((x) => {
     httpHeader += `
 ${x}/*
-cache-control: public
-cache-control: max-age=31536000
-cache-control: immutable
+  cache-control: public
+  cache-control: max-age=31536000
+  cache-control: immutable
 
 `
   })
@@ -54,6 +56,12 @@ module.exports = {
       if (fs.existsSync(x)) {
         console.log(
           `Warning: directory ${x} already exists before restoring caches. It will be replaced if it exists in the cache.`,
+        )
+      }
+
+      if (path.normalize(x) === path.normalize(constants.PUBLISH_DIR)) {
+        console.log(
+          `11ty sites must publish the dist directory, but your site’s publish directory is set to : “${constants.PUBLISH_DIR}”.`,
         )
       }
     })
@@ -77,7 +85,7 @@ module.exports = {
         console.log('- ' + x)
       })
 
-      if (inputs.img_cache_httpHeader) {
+      if (inputs.cache_img_httpHeader) {
         fs.appendFile(
           `${constants.PUBLISH_DIR}/_headers`,
           getHttpHeaders(inputs),
@@ -88,9 +96,7 @@ module.exports = {
         )
       }
     } else {
-      console.log(
-        `Warning: Unable to save 11ty cache. Build not found or is empty. Is you publish directory set correctly? “${constants.PUBLISH_DIR}”`,
-      )
+      console.log('Did not save any folders to cache.')
     }
   },
 }
