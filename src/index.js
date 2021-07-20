@@ -32,7 +32,7 @@ const getHttpHeaders = (inputs) => {
 
   getCacheDirs__('.', inputs.cache_img).map((x) => {
     httpHeader += `
-${x}/*
+/${x}/*
   cache-control: public
   cache-control: max-age=31536000
   cache-control: immutable
