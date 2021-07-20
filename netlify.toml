@@ -4,16 +4,22 @@
 
 # List of Build plugins
 [[plugins]]
-# Use the current plugin in builds for testing and debugging.
-# Local path to the plugin.
 package = "."
-  # Plugin configuration
-  #  [plugins.inputs]
-  #  foo = "bar"
+  [plugins.inputs]
+    img_cache_local = true
+    img_cache_local_dir = ['/img']
+
+    img_cache_remote = true
+    img_cache_remote_dir = '../.cache'
+
+    img_cache_httpHeader = true
+
+    other_cache_dir = []
 
 [build]
-# Dummy build command
-command = "echo onBuild"
+    base = "./"
+    command = "echo \"haha building!\""
+    publish = "_site"
 
 [build.environment]
 NODE_VERSION = "12.18.0"
