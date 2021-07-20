@@ -1,7 +1,7 @@
 {
   "name": "netlify-plugin-11ty",
-  "version": "0.0.1",
-  "description": "Netlify Build plugin - A build plugin to integrate Eleventy seamlessly with Netlify",
+  "version": "0.0.2",
+  "description": "A plugin to make building with Eleventy and Netlify a joy!",
   "publishConfig": {
     "access": "public"
   },
