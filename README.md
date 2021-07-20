@@ -16,7 +16,7 @@ please use [this fork](https://github.com/zeroby0/eleventy-img/tree/cache) inste
 
 ```bash
 npm r @11ty/eleventy-img
-npm i @zeroby0/eleventy-img
+npm i zeroby0/eleventy-img#cache
 npm i netlify-plugin-11ty
 ```
 
