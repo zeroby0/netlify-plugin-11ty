@@ -1,6 +1,6 @@
 {
   "name": "netlify-plugin-11ty",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "A plugin to make building with Eleventy and Netlify a joy!",
   "publishConfig": {
     "access": "public"
