@@ -6,7 +6,7 @@ inputs:
 
   - name: cache_img_httpHeader
     description: 'Add immutable cache http headers'
-    default: true
+    default: false
 
   - name: cache_assets
     description: '11ty Assets plugin cache directory'
