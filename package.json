@@ -16,7 +16,9 @@
   ],
   "keywords": [
     "netlify-plugin",
-    "netlify"
+    "netlify",
+    "11ty",
+    "eleventy"
   ],
   "author": {
     "name": "Aravind Reddy Voggu",
