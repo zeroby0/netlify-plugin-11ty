@@ -9,14 +9,18 @@ A plugin to make building with Eleventy and Netlify a joy!
 
 ## Install
 
-Install plugin via npm as dependency:
+Install plugin via your package manager of choice:
 
-**Note**: Till https://github.com/11ty/eleventy-img/pull/116 is merged,
+<!-- **Note**: Till https://github.com/11ty/eleventy-img/pull/116 is merged,
 please use [this fork](https://github.com/zeroby0/eleventy-img/tree/cache) instead of `@11ty/eleventy-img`.
 
 ```bash
 npm r @11ty/eleventy-img
 npm i zeroby0/eleventy-img#cache
+npm i netlify-plugin-11ty
+``` -->
+
+```bash
 npm i netlify-plugin-11ty
 ```
 
@@ -27,9 +31,13 @@ And add the plugin to your `netlify.toml` file
     package = "netlify-plugin-11ty"
 ```
 
+Aand you're done! 🥳
+
+You can read Netlify's documentation about Plugins here: https://docs.netlify.com/configure-builds/build-plugins/
+
 ## Configuration
 
-Optionally, you can configure the plugin to suit your project's needs.
+**Optional**. You can configure the plugin to suit your project's needs.
 
 **Example**:
 
