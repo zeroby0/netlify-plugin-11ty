@@ -54,17 +54,17 @@
     "release": "release-it"
   },
   "devDependencies": {
-    "@netlify/build": "^26.5.3",
-    "ava": "^4.0.0",
-    "cross-env": "^7.0.2",
-    "eslint": "^7.10.0",
-    "eslint-config-prettier": "^8.0.0",
-    "eslint-plugin-import": "^2.22.1",
+    "@netlify/build": "^28.4.0",
+    "ava": "^5.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "execa": "^6.0.0",
-    "netlify-cli": "^9.16.2",
-    "prettier": "^2.1.2",
-    "release-it": "^15.0.0"
+    "eslint-plugin-prettier": "^4.2.1",
+    "execa": "^6.1.0",
+    "netlify-cli": "^12.2.6",
+    "prettier": "^2.8.0",
+    "release-it": "^15.5.0"
   }
 }
