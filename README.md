@@ -39,10 +39,9 @@ Make sure the path for [`cache_img`](#1-cache_img) is correct. Aand you're done!
 You can read Netlify's documentation about Plugins here:
 https://docs.netlify.com/configure-builds/build-plugins/
 
-**Note**: If your builds are failing, the version of Node
-you're using is probably not supported by Netlify.
-Try Node v16.x.x.
-See the [FAQs section](#my-builds-are-failing) for more info.
+**Note**: If your builds are failing, the version of Node you're using is
+probably not supported by Netlify. Try Node v16.x.x. See the
+[FAQs section](#my-builds-are-failing) for more info.
 
 ## Documentation
 
@@ -113,6 +112,7 @@ If they are in a subdirectory, say `_site/assets/images`, use
 ### My builds are failing
 
 If your build fails with
+
 ```bash
 11:37:10 AM: Uncaught exception, the process will now terminate…
 11:37:10 AM: Error: Unable to deserialize cloned data due to invalid or unsupported version.
@@ -130,6 +130,7 @@ echo "16" > .nvmrc
 ```
 
 More info about this error:
+
 - https://answers.netlify.com/t/netlify-build-cache-error/78115/4
 - https://answers.netlify.com/t/build-failing-after-upgrade-to-node-18/75774
 
@@ -149,8 +150,6 @@ a benchmark I used when developing this plugin:
 | 2nd run (filled cache) | 11.32 seconds        | 131.82 **milliseconds** |
 
 [Read more](https://github.com/11ty/eleventy-img/pull/116#issuecomment-882870369)
-
-
 
 ## Recommended Netlify plugins
 

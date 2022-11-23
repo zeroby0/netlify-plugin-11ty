@@ -18,4 +18,4 @@ package = "."
     publish = "_site"
 
 [build.environment]
-NODE_VERSION = "12.18.0"
+NODE_VERSION = "16.18.1"
