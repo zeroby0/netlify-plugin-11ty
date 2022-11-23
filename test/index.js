@@ -1,8 +1,11 @@
-const test = require('ava')
+import test from 'ava'
+import { fileURLToPath } from 'url'
 
-const netlifyBuild = require('@netlify/build')
+import netlifyBuild from '@netlify/build'
 
-const NETLIFY_CONFIG = `${__dirname}/../netlify.toml`
+const NETLIFY_CONFIG = fileURLToPath(
+  new URL('../netlify.toml', import.meta.url),
+)
 
 // Unit tests are using the AVA test runner: https://github.com/avajs/ava
 // A local build is performed using the following command:

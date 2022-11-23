@@ -1,11 +1,10 @@
 {
   "name": "netlify-plugin-11ty",
-  "version": "1.1.0",
+  "version": "2.0.0-alpha",
   "description": "A plugin to make building with Eleventy and Netlify a joy!",
-  "publishConfig": {
-    "access": "public"
-  },
-  "main": "src/index.js",
+  "type": "module",
+  "exports": "./src/index.js",
+  "main": "./src/index.js",
   "files": [
     "src/**/*.js",
     "src/**/*.json",
@@ -38,27 +37,34 @@
   "engines": {
     "node": ">=12.18.0"
   },
+  "ava": {
+    "verbose": true,
+    "timeout": "100s",
+    "environmentVariables": {
+      "FORCE_COLOR": "1"
+    }
+  },
   "scripts": {
     "build": "netlify-build",
     "test": "npm run lint && npm run ava",
     "lint": "npm run eslint && npm run prettier",
-    "eslint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"{src,init}/**/*.js\"",
-    "prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"{.github,src,init}/**/*.{js,md,yml,json}\" \"*.{js,md,yml,json}\"",
+    "eslint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"{src,init}/**/*.{cjs,mjs,js}\"",
+    "prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"{.github,src,init}/**/*.{cjs,mjs,js,md,yml,json}\" \"*.{cjs,mjs,js,md,yml,json}\"",
     "ava": "cross-env FORCE_COLOR=1 ava --verbose",
     "release": "release-it"
   },
   "devDependencies": {
-    "@netlify/build": "^15.11.0",
-    "ava": "^3.13.0",
+    "@netlify/build": "^26.5.3",
+    "ava": "^4.0.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "execa": "^5.0.0",
-    "netlify-cli": "^4.1.18",
+    "eslint-plugin-prettier": "^4.0.0",
+    "execa": "^6.0.0",
+    "netlify-cli": "^9.16.2",
     "prettier": "^2.1.2",
-    "release-it": "^14.0.3"
+    "release-it": "^15.0.0"
   }
 }

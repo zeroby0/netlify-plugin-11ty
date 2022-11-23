@@ -9,7 +9,7 @@ package = "."
   cache_img = false
   cache_img_httpHeader = true
 
-  cache_assets = '../.cache'
+  cache_assets = "../.cache"
   cache_other = []
 
 [build]
