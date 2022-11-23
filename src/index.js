@@ -1,5 +1,5 @@
-const path = require('path')
-const fs = require('fs')
+import { normalize } from 'path'
+import { existsSync, appendFile } from 'fs'
 
 const getCacheDirs__ = (base, input) => {
   let cacheDirs = []
@@ -7,10 +7,10 @@ const getCacheDirs__ = (base, input) => {
   if (!input) return []
 
   if (typeof input === 'string') {
-    cacheDirs.push(path.normalize(base + '/' + input))
+    cacheDirs.push(normalize(base + '/' + input))
   } else if (Array.isArray(input)) {
     input.map((x) => {
-      cacheDirs.push(path.normalize(base + '/' + x))
+      cacheDirs.push(normalize(base + '/' + x))
     })
   } else {
     console.log(`Warning: Unsupported value in inputs. Ignoring ${input}`)
@@ -43,60 +43,58 @@ const getHttpHeaders = (inputs) => {
   return httpHeader
 }
 
-module.exports = {
-  async onPreBuild({ constants, inputs, utils }) {
-    if (!constants.PUBLISH_DIR || process.cwd() === constants.PUBLISH_DIR) {
-      utils.build.failBuild(
-        `11ty sites must publish the dist directory, but your site’s publish directory is set to : “${constants.PUBLISH_DIR}”. Please set your publish directory to your 11ty site’s dist directory.`,
+export const onPreBuild = async function ({ constants, inputs, utils }) {
+  if (!constants.PUBLISH_DIR || process.cwd() === constants.PUBLISH_DIR) {
+    utils.build.failBuild(
+      `11ty sites must publish the dist directory, but your site’s publish directory is set to : “${constants.PUBLISH_DIR}”. Please set your publish directory to your 11ty site’s dist directory.`,
+    )
+  }
+
+  const cacheDirs = getCacheDirs(constants.PUBLISH_DIR, inputs)
+  cacheDirs.map((x) => {
+    if (existsSync(x)) {
+      console.log(
+        `Warning: directory ${x} already exists before restoring caches. It will be replaced if it exists in the cache.`,
       )
     }
 
-    const cacheDirs = getCacheDirs(constants.PUBLISH_DIR, inputs)
-    cacheDirs.map((x) => {
-      if (fs.existsSync(x)) {
-        console.log(
-          `Warning: directory ${x} already exists before restoring caches. It will be replaced if it exists in the cache.`,
-        )
-      }
+    if (normalize(x) === normalize(constants.PUBLISH_DIR)) {
+      console.log(
+        `11ty sites must publish the dist directory, but your site’s publish directory is set to : “${constants.PUBLISH_DIR}”.`,
+      )
+    }
+  })
 
-      if (path.normalize(x) === path.normalize(constants.PUBLISH_DIR)) {
-        console.log(
-          `11ty sites must publish the dist directory, but your site’s publish directory is set to : “${constants.PUBLISH_DIR}”.`,
-        )
-      }
+  if (await utils.cache.restore(cacheDirs)) {
+    console.log('Restoring 11ty directories from cache:')
+    cacheDirs.map((x) => {
+      console.log('- ' + x)
+    })
+  } else {
+    console.log('No 11ty caches found. Building fresh.')
+  }
+}
+
+export const onPostBuild = async function ({ constants, inputs, utils }) {
+  const cacheDirs = getCacheDirs(constants.PUBLISH_DIR, inputs)
+
+  if (await utils.cache.save(cacheDirs)) {
+    console.log('Saving 11ty directories to cache:')
+    cacheDirs.map((x) => {
+      console.log('- ' + x)
     })
 
-    if (await utils.cache.restore(cacheDirs)) {
-      console.log('Restoring 11ty directories from cache:')
-      cacheDirs.map((x) => {
-        console.log('- ' + x)
-      })
-    } else {
-      console.log('No 11ty caches found. Building fresh.')
+    if (inputs.cache_img_httpHeader) {
+      appendFile(
+        `${constants.PUBLISH_DIR}/_headers`,
+        getHttpHeaders(inputs),
+        (err) => {
+          if (err) throw err
+          console.log('Saved http header')
+        },
+      )
     }
-  },
-
-  async onPostBuild({ constants, inputs, utils }) {
-    const cacheDirs = getCacheDirs(constants.PUBLISH_DIR, inputs)
-
-    if (await utils.cache.save(cacheDirs)) {
-      console.log('Saving 11ty directories to cache:')
-      cacheDirs.map((x) => {
-        console.log('- ' + x)
-      })
-
-      if (inputs.cache_img_httpHeader) {
-        fs.appendFile(
-          `${constants.PUBLISH_DIR}/_headers`,
-          getHttpHeaders(inputs),
-          (err) => {
-            if (err) throw err
-            console.log('Saved http header')
-          },
-        )
-      }
-    } else {
-      console.log('Did not save any folders to cache.')
-    }
-  },
+  } else {
+    console.log('Did not save any folders to cache.')
+  }
 }
