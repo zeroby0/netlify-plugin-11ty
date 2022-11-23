@@ -39,6 +39,11 @@ Make sure the path for [`cache_img`](#1-cache_img) is correct. Aand you're done!
 You can read Netlify's documentation about Plugins here:
 https://docs.netlify.com/configure-builds/build-plugins/
 
+**Note**: If your builds are failing, the version of Node
+you're using is probably not supported by Netlify.
+Try Node v16.x.x.
+See the [FAQs section](#my-builds-are-failing) for more info.
+
 ## Documentation
 
 ### 1. `cache_img`
@@ -105,6 +110,32 @@ If your images are written to `_site/img` (default), use
 If they are in a subdirectory, say `_site/assets/images`, use
 `rimraf '_site/!(assets)' '_site/assets/!(images)'`.
 
+### My builds are failing
+
+If your build fails with
+```bash
+11:37:10 AM: Uncaught exception, the process will now terminate…
+11:37:10 AM: Error: Unable to deserialize cloned data due to invalid or unsupported version.
+11:37:10 AM:     at parseChannelMessages (node:internal/child_process/serialization:97:20)
+11:37:10 AM:     at parseChannelMessages.next (<anonymous>)
+11:37:10 AM:     at Pipe.channel.onread (node:internal/child_process:619:18)
+```
+
+The version of Node you're using is probably not supported by Netlify.
+
+Try setting Node version to 16.x
+
+```bash
+echo "16" > .nvmrc
+```
+
+More info about this error:
+- https://answers.netlify.com/t/netlify-build-cache-error/78115/4
+- https://answers.netlify.com/t/build-failing-after-upgrade-to-node-18/75774
+
+See this guide for more ways to set Node versions:
+https://docs.netlify.com/configure-builds/manage-dependencies/
+
 ### Are there any Benchmarks?
 
 Yes!
@@ -118,6 +149,8 @@ a benchmark I used when developing this plugin:
 | 2nd run (filled cache) | 11.32 seconds        | 131.82 **milliseconds** |
 
 [Read more](https://github.com/11ty/eleventy-img/pull/116#issuecomment-882870369)
+
+
 
 ## Recommended Netlify plugins
 
