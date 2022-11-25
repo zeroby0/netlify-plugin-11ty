@@ -113,7 +113,7 @@ If they are in a subdirectory, say `_site/assets/images`, use
 
 If your build fails with
 
-```bash
+```log
 11:37:10 AM: Uncaught exception, the process will now terminate…
 11:37:10 AM: Error: Unable to deserialize cloned data due to invalid or unsupported version.
 11:37:10 AM:     at parseChannelMessages (node:internal/child_process/serialization:97:20)
@@ -121,7 +121,18 @@ If your build fails with
 11:37:10 AM:     at Pipe.channel.onread (node:internal/child_process:619:18)
 ```
 
-The version of Node you're using is probably not supported by Netlify.
+or with
+
+```log
+12:27:30 PM: ────────────────────────────────────────────────────────────────
+12:27:30 PM:   Configuration error                                           
+12:27:30 PM: ────────────────────────────────────────────────────────────────
+12:27:30 PM: ​
+12:27:30 PM:   Error message
+12:27:30 PM:   The Node.js version is 19.1.0 but the plugin "netlify-plugin-11ty" requires >=12.18.0 <18.0.0
+```
+
+The version of Node you're using is not supported by Netlify.
 
 Try setting Node version to 16.x
 
@@ -136,6 +147,19 @@ More info about this error:
 
 See this guide for more ways to set Node versions:
 https://docs.netlify.com/configure-builds/manage-dependencies/
+
+### Why are my images are not being cached?
+
+If you have lot of images (several hundreds or more), 
+your build might be timing out before the cache is saved.
+
+If you see `Failed during stage 'building site': Command did not finish within the time limit`
+in your build logs, try requesting an upgraded build time limit.
+
+See this thread for more details: https://answers.netlify.com/t/images-not-cached/78448/2
+
+If your builds are failing for some other reason, please create a 
+[new Issue](https://github.com/zeroby0/netlify-plugin-11ty/issues).
 
 ### Are there any Benchmarks?
 
