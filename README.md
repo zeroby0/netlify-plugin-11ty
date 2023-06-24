@@ -39,9 +39,6 @@ Make sure the path for [`cache_img`](#1-cache_img) is correct. Aand you're done!
 You can read Netlify's documentation about Plugins here:
 https://docs.netlify.com/configure-builds/build-plugins/
 
-**Note**: If your builds are failing, the version of Node you're using is
-probably not supported by Netlify. Try Node v16.x.x. See the
-[FAQs section](#my-builds-are-failing) for more info.
 
 ## Documentation
 
@@ -134,7 +131,7 @@ or with
 
 The version of Node you're using is not supported by Netlify.
 
-Try setting Node version to 16.x
+Try setting Node version to 16.x with
 
 ```bash
 echo "16" > .nvmrc
@@ -144,6 +141,7 @@ More info about this error:
 
 - https://answers.netlify.com/t/netlify-build-cache-error/78115/4
 - https://answers.netlify.com/t/build-failing-after-upgrade-to-node-18/75774
+- https://github.com/zeroby0/netlify-plugin-11ty/issues/3
 
 See this guide for more ways to set Node versions:
 https://docs.netlify.com/configure-builds/manage-dependencies/
